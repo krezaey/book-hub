@@ -56,15 +56,21 @@ const themes = {
         '--shadow-color': 'rgba(139, 195, 74, 0.4)'
     },
     canary: {
-        '--primary': '#faf0dc',
-        '--primary-light': '#fff5e1',
-        '--primary-lighter': '#fff9ec',
-        '--primary-dark': '#e6d8b0',
-        '--bg-gradient-start': '#fff8e1',
+        '--primary': '#f8e6b2',   
+        '--primary-light': '#faf0dc', 
+        '--primary-lighter': '#fff8e1', 
+        '--primary-dark': '#d6bf6b',    
+        '--bg-gradient-start': '#fff5d1',
         '--bg-gradient-end': '#ffe082',
         '--accent-light': '#fffde7',
         '--accent-lighter': '#fff9c4',
-        '--shadow-color': 'rgba(250, 240, 220, 0.4)'
+        '--text-color': '#4b3b0a',   
+        '--text-muted': '#7a6a3a',      
+        '--button-bg': '#f8e6b2',     
+        '--button-hover-bg': '#f2d88b', 
+        '--button-text': '#4b3b0a',    
+        '--button-disabled-bg': '#f7eed0',
+        '--shadow-color': 'rgba(230, 200, 120, 0.4)'
     }
 };
 
