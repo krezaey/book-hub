@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Tools Hub - Your Literary Companion</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">📚 Reading Tools</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/book-picker.html" class="nav-link">Book Picker</a>
+                <a href="pages/library-stats.html" class="nav-link">Library Stats</a>
+            </div>
+            <div class="theme-selector">
+                <button class="theme-btn" id="theme-btn" title="Change theme">🎨</button>
+                <div class="theme-dropdown" id="theme-dropdown">
+                    <button class="theme-option" data-theme="forest">🌲 Forest Green</button>
+                    <button class="theme-option" data-theme="ocean">🌊 Ocean Blue</button>
+                    <button class="theme-option" data-theme="sunset">🌅 Sunset Peach</button>
+                    <button class="theme-option" data-theme="lavender">💜 Lavender</button>
+                    <button class="theme-option" data-theme="sage">🍃 Sage</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="assets/js/theme.js"></script>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-emoji">📖✨</div>
+            <h1 class="hero-title">Reading Tools Hub</h1>
+            <p class="hero-subtitle">Your all-in-one companion for managing and exploring your book collection</p>
+        </section>
+
+        <!-- Tools Grid -->
+        <section class="tools-grid">
+            <a href="pages/book-picker.html" class="tool-card">
+                <div class="tool-icon">🎲</div>
+                <h3>Book Picker</h3>
+                <p>Can't decide what to read next? Let fate choose! Filter by genre, author, tags, and more.</p>
+            </a>
+
+            <a href="pages/library-stats.html" class="tool-card">
+                <div class="tool-icon">📊</div>
+                <h3>Library Stats</h3>
+                <p>Discover insights about your reading habits. See your most-read genres, authors, and more.</p>
+            </a>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="getting-started">
+            <h2>Getting Started</h2>
+            <div class="steps-horizontal">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h4>Export Your Library</h4>
+                    <p>Export your book collection as a CSV file from your reading tracking app or spreadsheet.</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h4>Upload Once</h4>
+                    <p>Upload your CSV file - it's automatically saved so you can use it across all tools.</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h4>Explore & Discover</h4>
+                    <p>Filter, analyze, and randomly pick your next read with ease!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>Made with 💚 for book lovers everywhere</p>
+        <p class="footer-note">No data collected • No tracking • Open source</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Picker - Reading Tools Hub</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">📚 Reading Tools</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="book-picker.html" class="nav-link active">Book Picker</a>
+                <a href="library-stats.html" class="nav-link">Library Stats</a>
+            </div>
+            <div class="theme-selector">
+                <button class="theme-btn" id="theme-btn" title="Change theme">🎨</button>
+                <div class="theme-dropdown" id="theme-dropdown">
+                    <button class="theme-option" data-theme="forest">🌲 Forest Green</button>
+                    <button class="theme-option" data-theme="ocean">🌊 Ocean Blue</button>
+                    <button class="theme-option" data-theme="sunset">🌅 Sunset Peach</button>
+                    <button class="theme-option" data-theme="lavender">💜 Lavender</button>
+                    <button class="theme-option" data-theme="sage">🍃 Sage</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="../assets/js/theme.js"></script>
+
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="book-emoji">🎲</div>
+            <h1>Book Picker</h1>
+            <p class="tagline">Let fate choose your next adventure!</p>
+        </header>
+
+        <!-- Step 1: Upload CSV -->
+        <section id="upload-section" class="section active">
+            <div class="step-indicator">Step 1</div>
+            <h2>Upload Your Library</h2>
+            
+            <!-- Show if CSV already loaded -->
+            <div id="csv-loaded-notice" class="csv-loaded-notice" style="display: none;">
+                <p class="csv-loaded-text">✅ CSV already loaded: <strong id="loaded-csv-name"></strong></p>
+                <div class="csv-options">
+                    <button id="use-existing-csv-btn" class="btn btn-primary">Use This CSV</button>
+                    <button id="upload-different-csv-btn" class="btn btn-outline">Upload Different CSV</button>
+                </div>
+            </div>
+
+            <!-- Upload zone (shown when no CSV or want to upload different) -->
+            <div id="upload-zone-container">
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">📖</div>
+                    <p class="upload-text">Drag & drop your CSV file here</p>
+                    <p class="upload-subtext">or</p>
+                    <label for="file-input" class="btn btn-primary">Choose File</label>
+                    <input type="file" id="file-input" accept=".csv" hidden>
+                </div>
+                <p class="file-name" id="file-name"></p>
+            </div>
+        </section>
+
+        <!-- Step 2: Select Columns -->
+        <section id="columns-section" class="section">
+            <div class="step-indicator">Step 2</div>
+            <h2>Choose Your Filters</h2>
+            <p class="section-desc">Select which columns you'd like to filter by, or skip to pick completely at random</p>
+            
+            <!-- Quick Random Option -->
+            <div class="random-option">
+                <button id="random-book-btn" class="btn btn-magic">🎲 Surprise Me! Pick Any Book 🎲</button>
+                <p class="random-hint">Skip filters and get a completely random book from your entire library</p>
+            </div>
+            
+            <div class="or-divider">
+                <span>or choose filters</span>
+            </div>
+            
+            <div id="columns-list" class="columns-list"></div>
+            <button id="columns-next-btn" class="btn btn-primary">Next Step →</button>
+        </section>
+
+        <!-- Step 3: Select Values -->
+        <section id="values-section" class="section">
+            <div class="step-indicator">Step 3</div>
+            <h2>Pick Your Preferences</h2>
+            <p class="section-desc">Select specific values you're interested in</p>
+            
+            <!-- Unread Only Filter -->
+            <div class="unread-filter">
+                <label class="unread-filter-label">
+                    <input type="checkbox" id="unread-only-checkbox" class="unread-checkbox">
+                    <span class="unread-text">📚 Only show unread books</span>
+                </label>
+                <p class="unread-hint" id="unread-hint"></p>
+            </div>
+            
+            <div id="values-container" class="values-container"></div>
+            <button id="pick-book-btn" class="btn btn-magic">✨ Pick My Book! ✨</button>
+        </section>
+
+        <!-- Step 4: Result -->
+        <section id="result-section" class="section">
+            <div class="result-card" id="result-card">
+                <div class="sparkles">✨</div>
+                <h2>Your Next Read</h2>
+                <div id="book-details" class="book-details"></div>
+                <div class="result-actions">
+                    <button id="pick-another-btn" class="btn btn-secondary">Pick Another</button>
+                    <button id="start-over-btn" class="btn btn-outline">Start Over</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>Made with 💚 for book lovers everywhere</p>
+    </footer>
+
+    <script src="../assets/js/book-picker.js"></script>
+</body>
+</html>

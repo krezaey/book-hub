@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Stats - Reading Tools Hub</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">📚 Reading Tools</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="book-picker.html" class="nav-link">Book Picker</a>
+                <a href="library-stats.html" class="nav-link active">Library Stats</a>
+            </div>
+            <div class="theme-selector">
+                <button class="theme-btn" id="theme-btn" title="Change theme">🎨</button>
+                <div class="theme-dropdown" id="theme-dropdown">
+                    <button class="theme-option" data-theme="forest">🌲 Forest Green</button>
+                    <button class="theme-option" data-theme="ocean">🌊 Ocean Blue</button>
+                    <button class="theme-option" data-theme="sunset">🌅 Sunset Peach</button>
+                    <button class="theme-option" data-theme="lavender">💜 Lavender</button>
+                    <button class="theme-option" data-theme="sage">🍃 Sage</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="../assets/js/theme.js"></script>
+
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="book-emoji">📊</div>
+            <h1>Library Stats</h1>
+            <p class="tagline">Discover insights about your reading collection</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section id="upload-section" class="section active">
+            <h2>Upload Your Library</h2>
+            
+            <!-- Show if CSV already loaded -->
+            <div id="csv-loaded-notice" class="csv-loaded-notice" style="display: none;">
+                <p class="csv-loaded-text">✅ CSV already loaded: <strong id="loaded-csv-name"></strong></p>
+                <div class="csv-options">
+                    <button id="use-existing-csv-btn" class="btn btn-primary">Use This CSV</button>
+                    <button id="upload-different-csv-btn" class="btn btn-outline">Upload Different CSV</button>
+                </div>
+            </div>
+
+            <!-- Upload zone -->
+            <div id="upload-zone-container">
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">📖</div>
+                    <p class="upload-text">Drag & drop your CSV file here</p>
+                    <p class="upload-subtext">or</p>
+                    <label for="file-input" class="btn btn-primary">Choose File</label>
+                    <input type="file" id="file-input" accept=".csv" hidden>
+                </div>
+                <p class="file-name" id="file-name"></p>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats-section" class="section">
+            <h2>Your Library Insights</h2>
+            
+            <!-- Overview Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number" id="total-books">0</div>
+                    <div class="stat-label">Total Books</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-number" id="books-read">0</div>
+                    <div class="stat-label">Books Read</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-number" id="books-tbr">0</div>
+                    <div class="stat-label">To Be Read</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-number" id="total-pages">0</div>
+                    <div class="stat-label">Total Pages</div>
+                </div>
+            </div>
+
+            <!-- Filter Toggle -->
+            <div class="stats-filter-toggle">
+                <p class="toggle-label">Show stats for:</p>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" data-filter="all">All Books</button>
+                    <button class="toggle-btn" data-filter="read">Read Only</button>
+                    <button class="toggle-btn" data-filter="unread">Unread Only</button>
+                </div>
+            </div>
+
+            <!-- Top Lists -->
+            <div class="top-lists">
+                <div class="top-list-card">
+                    <h3>📚 Top Genres/Categories</h3>
+                    <div id="top-genres" class="top-list"></div>
+                </div>
+                
+                <div class="top-list-card">
+                    <h3>✍️ Top Authors</h3>
+                    <div id="top-authors" class="top-list"></div>
+                </div>
+                
+                <div class="top-list-card">
+                    <h3>🏷️ Popular Tags</h3>
+                    <div id="top-tags" class="top-list"></div>
+                </div>
+            </div>
+
+            <button id="analyze-again-btn" class="btn btn-secondary">Analyze Another File</button>
+        </section>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Made with 💚 for book lovers everywhere</p>
+    </footer>
+
+    <script src="../assets/js/library-stats.js"></script>
+</body>
+</html>
