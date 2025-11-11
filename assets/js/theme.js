@@ -54,6 +54,17 @@ const themes = {
         '--accent-light': '#f1f8e9',
         '--accent-lighter': '#dcedc8',
         '--shadow-color': 'rgba(139, 195, 74, 0.4)'
+    },
+    canary: {
+        '--primary': '#faf0dc',
+        '--primary-light': '#fff5e1',
+        '--primary-lighter': '#fff9ec',
+        '--primary-dark': '#e6d8b0',
+        '--bg-gradient-start': '#fff8e1',
+        '--bg-gradient-end': '#ffe082',
+        '--accent-light': '#fffde7',
+        '--accent-lighter': '#fff9c4',
+        '--shadow-color': 'rgba(250, 240, 220, 0.4)'
     }
 };
 
