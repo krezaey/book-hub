@@ -3,25 +3,6 @@
 A web app for exploring your book collection with smart filtering, statistics, and random book selection.
 [Check it out here!](https://krezaey.github.io/book-hub/index.html)
 
-## 📁 Project Structure
-
-```
-book-selector/
-├── index.html              # Main landing page
-├── assets/
-│   ├── css/
-│   │   └── styles.css     # All styles with theme support
-│   └── js/
-│       ├── theme.js       # Theme switching logic
-│       ├── book-picker.js # Book picker tool logic
-│       └── library-stats.js # Library stats tool logic
-├── pages/
-│   ├── book-picker.html   # Book picker page
-│   └── library-stats.html # Library stats page
-├── README.md
-├── .gitignore
-└── .nojekyll             # For GitHub Pages
-```
 ## Important Notes
 
 - ✅ **Privacy**: All CSV processing happens in the browser - no data is sent to any server
