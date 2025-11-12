@@ -6,7 +6,9 @@ let statsData = {
     currentFilter: 'all', // 'all', 'read', 'unread'
     genreBooks: {},
     authorBooks: {},
-    tagBooks: {}
+    tagBooks: {},
+    ratingField: null,
+    hasRatings: false
 };
 
 // DOM Elements
@@ -21,6 +23,7 @@ const csvLoadedNotice = document.getElementById('csv-loaded-notice');
 const loadedCsvName = document.getElementById('loaded-csv-name');
 const useExistingCsvBtn = document.getElementById('use-existing-csv-btn');
 const uploadDifferentCsvBtn = document.getElementById('upload-different-csv-btn');
+const downloadStatsBtn = document.getElementById('download-stats-btn');
 
 // Modal elements
 const modal = document.getElementById('preview-modal');
@@ -33,6 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
     checkForExistingCSV();
     setupModalHandlers();
     setupToggleHandlers();
+    setupDownloadHandler();
 });
 
 function checkForExistingCSV() {
@@ -199,6 +203,9 @@ function calculateStats() {
     const data = statsData.csvData;
     const headers = statsData.headers;
     
+    // Detect rating field
+    detectRatingField();
+    
     // Total books
     document.getElementById('total-books').textContent = data.length;
     
@@ -236,8 +243,67 @@ function calculateStats() {
         document.getElementById('total-pages').textContent = '0';
     }
     
+    // Calculate rating statistics if ratings exist
+    if (statsData.hasRatings) {
+        calculateRatingStats();
+    }
+    
     // Calculate top lists with filtered data
     calculateTopLists();
+}
+
+// Detect rating field in CSV
+function detectRatingField() {
+    const headers = statsData.headers;
+    
+    // Look for common rating field names
+    const ratingField = headers.find(h => {
+        const lower = h.toLowerCase();
+        return lower.includes('rating') || 
+               lower.includes('stars') || 
+               lower === 'my rating' ||
+               lower === 'score';
+    });
+    
+    if (ratingField) {
+        // Check if field actually has rating values
+        const hasValidRatings = statsData.csvData.some(book => {
+            const rating = parseFloat(book[ratingField]);
+            return !isNaN(rating) && rating > 0;
+        });
+        
+        if (hasValidRatings) {
+            statsData.ratingField = ratingField;
+            statsData.hasRatings = true;
+        }
+    }
+}
+
+// Calculate rating statistics
+function calculateRatingStats() {
+    const data = getFilteredBooks(); // Use filtered data instead of all data
+    const ratingField = statsData.ratingField;
+    
+    let totalRating = 0;
+    let ratedCount = 0;
+    
+    data.forEach(book => {
+        const rating = parseFloat(book[ratingField]);
+        if (!isNaN(rating) && rating > 0) {
+            totalRating += rating;
+            ratedCount++;
+        }
+    });
+    
+    if (ratedCount > 0) {
+        const avgRating = (totalRating / ratedCount).toFixed(1);
+        document.getElementById('avg-rating').textContent = avgRating;
+        document.getElementById('rated-books').textContent = ratedCount;
+        
+        // Show rating cards
+        document.getElementById('avg-rating-card').style.display = 'block';
+        document.getElementById('rated-books-card').style.display = 'block';
+    }
 }
 
 function calculateTopLists() {
@@ -394,6 +460,52 @@ function calculateTopLists() {
     } else {
         document.getElementById('top-tags').innerHTML = '<p class="no-data">No tag data found</p>';
     }
+    
+    // Top rated books (if ratings exist)
+    if (statsData.hasRatings) {
+        displayTopRatedBooks();
+    }
+}
+
+// Display top rated books
+function displayTopRatedBooks() {
+    const filteredData = getFilteredBooks();
+    const ratingField = statsData.ratingField;
+    const titleField = statsData.headers.find(h => 
+        h.toLowerCase().includes('title') && !h.toLowerCase().includes('subtitle')
+    );
+    
+    // Get books with ratings, sorted by rating (highest first)
+    const ratedBooks = filteredData
+        .filter(book => {
+            const rating = parseFloat(book[ratingField]);
+            return !isNaN(rating) && rating > 0;
+        })
+        .sort((a, b) => {
+            const ratingA = parseFloat(a[ratingField]);
+            const ratingB = parseFloat(b[ratingField]);
+            return ratingB - ratingA;
+        })
+        .slice(0, 10);
+    
+    if (ratedBooks.length > 0) {
+        const html = ratedBooks.map(book => {
+            const title = book[titleField] || 'Untitled';
+            const rating = parseFloat(book[ratingField]).toFixed(1);
+            
+            return `
+                <div class="top-list-item rated-book-item">
+                    <span class="top-list-name">${title}</span>
+                    <span class="top-list-badge rating-badge">⭐ ${rating}</span>
+                </div>
+            `;
+        }).join('');
+        
+        document.getElementById('top-rated').innerHTML = html;
+        document.getElementById('top-rated-card').style.display = 'block';
+    } else {
+        document.getElementById('top-rated-card').style.display = 'none';
+    }
 }
 
 function displayTopList(elementId, counts, type) {
@@ -462,7 +574,14 @@ function showPreview(name, type) {
         h.toLowerCase().includes('author') || h.toLowerCase().includes('creator')
     );
     
-    const html = books.map(book => {
+    // Sort books alphabetically by title
+    const sortedBooks = [...books].sort((a, b) => {
+        const titleA = (a[titleField] || 'Untitled').toLowerCase();
+        const titleB = (b[titleField] || 'Untitled').toLowerCase();
+        return titleA.localeCompare(titleB);
+    });
+    
+    const html = sortedBooks.map(book => {
         const bookTitle = book[titleField] || 'Untitled';
         const bookAuthor = book[authorField] || 'Unknown Author';
         
@@ -495,6 +614,11 @@ function setupToggleHandlers() {
             // Update filter
             statsData.currentFilter = btn.dataset.filter;
             
+            // Recalculate rating stats if ratings exist
+            if (statsData.hasRatings) {
+                calculateRatingStats();
+            }
+            
             // Recalculate top lists
             calculateTopLists();
         });
@@ -518,3 +642,52 @@ analyzeAgainBtn.addEventListener('click', () => {
     checkForExistingCSV();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// Setup download handler
+function setupDownloadHandler() {
+    downloadStatsBtn.addEventListener('click', async () => {
+        const statsContent = document.getElementById('stats-content');
+        const originalBtn = downloadStatsBtn.innerHTML;
+        
+        try {
+            // Update button to show loading state
+            downloadStatsBtn.innerHTML = '<span class="download-icon">⏳</span> Generating...';
+            downloadStatsBtn.disabled = true;
+            
+            // Wait a moment for the button to update
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            // Generate canvas from the stats content
+            const canvas = await html2canvas(statsContent, {
+                backgroundColor: '#ffffff',
+                scale: 2, // Higher quality
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            });
+            
+            // Convert canvas to blob
+            canvas.toBlob((blob) => {
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                const date = new Date().toISOString().split('T')[0];
+                link.download = `book-library-stats-${date}.png`;
+                link.href = url;
+                link.click();
+                
+                // Cleanup
+                URL.revokeObjectURL(url);
+                
+                // Reset button
+                downloadStatsBtn.innerHTML = originalBtn;
+                downloadStatsBtn.disabled = false;
+            });
+        } catch (error) {
+            console.error('Error generating image:', error);
+            alert('Failed to generate image. Please try again.');
+            downloadStatsBtn.innerHTML = originalBtn;
+            downloadStatsBtn.disabled = false;
+        }
+    });
+}

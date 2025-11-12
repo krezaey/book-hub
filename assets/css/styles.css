@@ -485,6 +485,21 @@ body {
     text-decoration: none;
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.download-icon {
+    font-size: 1.2rem;
+}
+
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
     color: white;
@@ -783,6 +798,25 @@ body {
 }
 
 /* Stats Page */
+.section-header-with-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-header-with-actions h2 {
+    margin: 0;
+}
+
+#stats-content {
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+}
+
 .stats-filter-toggle {
     background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-lighter) 100%);
     padding: 25px;
@@ -921,6 +955,21 @@ body {
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+.rating-badge {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    color: #333;
+    font-weight: 700;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rated-book-item:hover .rating-badge {
+    transform: scale(1.1);
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.5);
 }
 
 .no-data {
@@ -1253,5 +1302,516 @@ body {
 
     .tool-icon {
         font-size: 2.5rem;
+    }
+}
+
+/* Bracket Game Styles */
+.bracket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.bracket-header h2 {
+    margin: 0;
+}
+
+.bracket-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.bracket-info p {
+    color: #666;
+    margin: 0;
+}
+
+/* Bracket Controls */
+.bracket-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.bracket-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 25px;
+    padding: 4px;
+}
+
+.toggle-view-btn {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: #666;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.toggle-view-btn.active {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: white;
+    box-shadow: 0 3px 10px var(--shadow-color);
+}
+
+.toggle-view-btn:hover:not(.active) {
+    color: var(--primary);
+}
+
+/* Round Views */
+.round-view {
+    display: none;
+}
+
+.round-view.active {
+    display: block;
+}
+
+/* Current Round View */
+.current-round-title {
+    text-align: center;
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--primary);
+}
+
+.round-progress {
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-lighter) 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 2px solid var(--primary);
+}
+
+.progress-text {
+    text-align: center;
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.current-matchups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.matchup-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.matchup-card:has(.matchup-book:hover:not(.loser)) {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.matchup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+.matchup-number {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.matchup-complete {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.matchup-pending {
+    color: #999;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Bracket Scroll Hint */
+.bracket-scroll-hint {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.bracket-scroll-hint p {
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-lighter) 100%);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+    border: 2px solid var(--primary);
+}
+
+.bracket-container {
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.bracket-rounds {
+    display: flex;
+    gap: 40px;
+    min-width: max-content;
+    padding: 10px;
+}
+
+.bracket-round {
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+}
+
+.round-title {
+    text-align: center;
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--primary);
+}
+
+.matchups {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex: 1;
+    justify-content: space-around;
+}
+
+.matchup {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.matchup-book {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 8px 0;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    min-height: 70px;
+}
+
+.matchup-book:hover:not(.loser) {
+    transform: translateX(5px);
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.matchup-book.winner {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 5px 20px var(--shadow-color);
+    font-weight: 600;
+}
+
+.matchup-book.loser {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+.book-seed {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary);
+    min-width: 30px;
+    text-align: center;
+}
+
+.matchup-book.winner .book-seed {
+    color: white;
+}
+
+.book-info-bracket {
+    flex: 1;
+}
+
+.book-title-bracket {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.book-author-bracket {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.2;
+}
+
+.matchup-book.winner .book-author-bracket {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.winner-badge {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 700;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.matchup-vs {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.9rem;
+    padding: 5px 0;
+}
+
+.matchup-placeholder {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e0e0e0 100%);
+    border-radius: 10px;
+}
+
+/* Winner Section */
+.winner-card {
+    text-align: center;
+    position: relative;
+}
+
+.winner-emoji {
+    font-size: 4rem;
+    animation: bounce 1s ease infinite;
+    margin-bottom: 20px;
+}
+
+.winner-card h2 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.winner-details {
+    background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-lighter) 100%);
+    padding: 40px;
+    border-radius: 20px;
+    margin: 30px 0;
+    text-align: left;
+    border: 3px solid var(--primary);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.champion-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.winner-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsive Bracket Styles */
+@media (max-width: 1200px) {
+    .bracket-rounds {
+        gap: 25px;
+    }
+    
+    .bracket-round {
+        min-width: 240px;
+    }
+    
+    .current-matchups-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .bracket-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .bracket-info {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .section-header-with-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .bracket-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .view-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .bracket-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .bracket-actions .btn {
+        width: 100%;
+    }
+    
+    .bracket-rounds {
+        gap: 20px;
+    }
+    
+    .bracket-round {
+        min-width: 220px;
+    }
+    
+    .matchup-book {
+        padding: 12px;
+    }
+    
+    .book-title-bracket {
+        font-size: 0.9rem;
+    }
+    
+    .book-author-bracket {
+        font-size: 0.8rem;
+    }
+    
+    .champion-title {
+        font-size: 2rem;
+    }
+    
+    .winner-details {
+        padding: 25px;
+    }
+    
+    .winner-emoji {
+        font-size: 3rem;
+    }
+    
+    .current-matchups-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .current-round-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bracket-container {
+        margin: 0 -20px;
+        padding: 20px 10px;
+    }
+    
+    .bracket-round {
+        min-width: 200px;
+    }
+    
+    .round-title {
+        font-size: 1rem;
+    }
+    
+    .matchup {
+        padding: 12px;
+    }
+    
+    .matchup-book {
+        padding: 10px;
+        min-height: 60px;
+    }
+    
+    .book-seed {
+        min-width: 25px;
+        font-size: 1rem;
+    }
+    
+    .matchup-card {
+        padding: 15px;
+    }
+    
+    .toggle-view-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .bracket-scroll-hint p {
+        font-size: 0.85rem;
+        padding: 8px 15px;
     }
 }

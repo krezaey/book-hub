@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Picker - Reading Tools Hub</title>
+    <title>Book Bracket - Reading Tools Hub</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -13,9 +14,9 @@
             <a href="../index.html" class="nav-brand">📚 Reading Tools</a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="book-picker.html" class="nav-link active">Book Picker</a>
+                <a href="book-picker.html" class="nav-link">Book Picker</a>
                 <a href="library-stats.html" class="nav-link">Library Stats</a>
-                <a href="book-bracket.html" class="nav-link">Book Bracket</a>
+                <a href="book-bracket.html" class="nav-link active">Book Bracket</a>
             </div>
             <div class="theme-selector">
                 <button class="theme-btn" id="theme-btn" title="Change theme">🎨</button>
@@ -35,26 +36,25 @@
     <div class="container">
         <!-- Page Header -->
         <header class="page-header">
-            <div class="book-emoji">🎲</div>
-            <h1>Book Picker</h1>
-            <p class="tagline">Let fate choose your next adventure!</p>
+            <div class="book-emoji">🏆</div>
+            <h1>Book Bracket</h1>
+            <p class="tagline">Which book reigns supreme? You decide!</p>
         </header>
 
-        <!-- Step 1: Upload CSV -->
+        <!-- Upload Section -->
         <section id="upload-section" class="section active">
-            <div class="step-indicator">Step 1</div>
             <h2>Upload Your Library</h2>
             
             <!-- Show if CSV already loaded -->
             <div id="csv-loaded-notice" class="csv-loaded-notice" style="display: none;">
                 <p class="csv-loaded-text">✅ CSV already loaded: <strong id="loaded-csv-name"></strong></p>
                 <div class="csv-options">
-                    <button id="use-existing-csv-btn" class="btn btn-primary">Use This CSV</button>
+                    <button id="use-existing-csv-btn" class="btn btn-primary">Start Bracket Game</button>
                     <button id="upload-different-csv-btn" class="btn btn-outline">Upload Different CSV</button>
                 </div>
             </div>
 
-            <!-- Upload zone (shown when no CSV or want to upload different) -->
+            <!-- Upload zone -->
             <div id="upload-zone-container">
                 <div class="upload-zone" id="upload-zone">
                     <div class="upload-icon">📖</div>
@@ -67,54 +67,53 @@
             </div>
         </section>
 
-        <!-- Step 2: Select Columns -->
-        <section id="columns-section" class="section">
-            <div class="step-indicator">Step 2</div>
-            <h2>Choose Your Filters</h2>
-            <p class="section-desc">Select which columns you'd like to filter by, or skip to pick completely at random</p>
-            
-            <!-- Quick Random Option -->
-            <div class="random-option">
-                <button id="random-book-btn" class="btn btn-magic">🎲 Surprise Me! Pick Any Book 🎲</button>
-                <p class="random-hint">Skip filters and get a completely random book from your entire library</p>
+        <!-- Bracket Section -->
+        <section id="bracket-section" class="section">
+            <div class="bracket-header">
+                <h2 id="bracket-title">Sweet 16 Tournament</h2>
+                <div class="bracket-info">
+                    <p id="bracket-source"></p>
+                </div>
             </div>
-            
-            <div class="or-divider">
-                <span>or choose filters</span>
+
+            <div class="bracket-controls">
+                <div class="view-toggle">
+                    <button id="current-view-btn" class="toggle-view-btn active">Current Round</button>
+                    <button id="full-view-btn" class="toggle-view-btn">Full Bracket</button>
+                </div>
+                <div class="bracket-actions">
+                    <button id="download-bracket-btn" class="btn btn-secondary download-btn">
+                        <span class="download-icon">📥</span> Download Bracket
+                    </button>
+                    <button id="restart-bracket-btn" class="btn btn-outline">New Bracket</button>
+                </div>
             </div>
-            
-            <div id="columns-list" class="columns-list"></div>
-            <button id="columns-next-btn" class="btn btn-primary">Next Step →</button>
+
+            <!-- Current Round View (default, no horizontal scroll) -->
+            <div id="current-round-view" class="round-view active">
+                <div id="current-round-container"></div>
+            </div>
+
+            <!-- Full Bracket View (traditional tournament bracket) -->
+            <div id="full-bracket-view" class="round-view">
+                <div class="bracket-scroll-hint">
+                    <p>💡 Swipe or scroll horizontally to see all rounds →</p>
+                </div>
+                <div id="bracket-container" class="bracket-container">
+                    <!-- Bracket will be generated here -->
+                </div>
+            </div>
         </section>
 
-        <!-- Step 3: Select Values -->
-        <section id="values-section" class="section">
-            <div class="step-indicator">Step 3</div>
-            <h2>Pick Your Preferences</h2>
-            <p class="section-desc">Select specific values you're interested in</p>
-            
-            <!-- Unread Only Filter -->
-            <div class="unread-filter">
-                <label class="unread-filter-label">
-                    <input type="checkbox" id="unread-only-checkbox" class="unread-checkbox">
-                    <span class="unread-text">📚 Only show unread books</span>
-                </label>
-                <p class="unread-hint" id="unread-hint"></p>
-            </div>
-            
-            <div id="values-container" class="values-container"></div>
-            <button id="pick-book-btn" class="btn btn-magic">✨ Pick My Book! ✨</button>
-        </section>
-
-        <!-- Step 4: Result -->
-        <section id="result-section" class="section">
-            <div class="result-card" id="result-card">
-                <div class="sparkles">✨</div>
-                <h2>Your Next Read</h2>
-                <div id="book-details" class="book-details"></div>
-                <div class="result-actions">
-                    <button id="pick-another-btn" class="btn btn-secondary">Pick Another</button>
-                    <button id="start-over-btn" class="btn btn-outline">Start Over</button>
+        <!-- Winner Section -->
+        <section id="winner-section" class="section">
+            <div class="winner-card">
+                <div class="winner-emoji">🏆👑🎉</div>
+                <h2>Your Champion!</h2>
+                <div id="winner-details" class="winner-details"></div>
+                <div class="winner-actions">
+                    <button id="new-bracket-btn" class="btn btn-magic">Start New Bracket</button>
+                    <button id="view-bracket-btn" class="btn btn-secondary">View Final Bracket</button>
                 </div>
             </div>
         </section>
@@ -124,6 +123,7 @@
         <p>Made with <span id="footer-heart">💚</span> for book lovers everywhere</p>
     </footer>
 
-    <script src="../assets/js/book-picker.js"></script>
+    <script src="../assets/js/book-bracket.js"></script>
 </body>
 </html>
+

@@ -9,7 +9,8 @@ const themes = {
         '--bg-gradient-end': '#6ba843',
         '--accent-light': '#e8f5e9',
         '--accent-lighter': '#c8e6c9',
-        '--shadow-color': 'rgba(76, 175, 80, 0.4)'
+        '--shadow-color': 'rgba(76, 175, 80, 0.4)',
+        heart: '💚'
     },
     ocean: {
         '--primary': '#0288d1',
@@ -20,7 +21,8 @@ const themes = {
         '--bg-gradient-end': '#0288d1',
         '--accent-light': '#e1f5fe',
         '--accent-lighter': '#b3e5fc',
-        '--shadow-color': 'rgba(2, 136, 209, 0.4)'
+        '--shadow-color': 'rgba(2, 136, 209, 0.4)',
+        heart: '💙'
     },
     sunset: {
         '--primary': '#ff6f61',
@@ -31,7 +33,8 @@ const themes = {
         '--bg-gradient-end': '#ff8a65',
         '--accent-light': '#fff3e0',
         '--accent-lighter': '#ffe0b2',
-        '--shadow-color': 'rgba(255, 111, 97, 0.4)'
+        '--shadow-color': 'rgba(255, 111, 97, 0.4)',
+        heart: '🧡'
     },
     lavender: {
         '--primary': '#9c27b0',
@@ -42,7 +45,8 @@ const themes = {
         '--bg-gradient-end': '#ab47bc',
         '--accent-light': '#f3e5f5',
         '--accent-lighter': '#e1bee7',
-        '--shadow-color': 'rgba(156, 39, 176, 0.4)'
+        '--shadow-color': 'rgba(156, 39, 176, 0.4)',
+        heart: '💜'
     },
     sage: {
         '--primary': '#8bc34a',
@@ -53,7 +57,8 @@ const themes = {
         '--bg-gradient-end': '#9ccc65',
         '--accent-light': '#f1f8e9',
         '--accent-lighter': '#dcedc8',
-        '--shadow-color': 'rgba(139, 195, 74, 0.4)'
+        '--shadow-color': 'rgba(139, 195, 74, 0.4)',
+        heart: '💚'
     },
     canary: {
         '--primary': '#f8e6b2',   
@@ -70,7 +75,8 @@ const themes = {
         '--button-hover-bg': '#f2d88b', 
         '--button-text': '#4b3b0a',    
         '--button-disabled-bg': '#f7eed0',
-        '--shadow-color': 'rgba(230, 200, 120, 0.4)'
+        '--shadow-color': 'rgba(230, 200, 120, 0.4)',
+        heart: '💛'
     }
 };
 
@@ -117,8 +123,16 @@ function applyTheme(themeName) {
     
     // Apply all CSS variables
     Object.entries(theme).forEach(([property, value]) => {
-        root.style.setProperty(property, value);
+        if (property.startsWith('--')) {
+            root.style.setProperty(property, value);
+        }
     });
+    
+    // Update footer heart emoji
+    const footerHeart = document.getElementById('footer-heart');
+    if (footerHeart && theme.heart) {
+        footerHeart.textContent = theme.heart;
+    }
     
     // Update active state
     themeOptions.forEach(opt => {

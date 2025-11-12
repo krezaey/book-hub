@@ -6,6 +6,7 @@
     <title>Library Stats - Reading Tools Hub</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -15,6 +16,7 @@
                 <a href="../index.html" class="nav-link">Home</a>
                 <a href="book-picker.html" class="nav-link">Book Picker</a>
                 <a href="library-stats.html" class="nav-link active">Library Stats</a>
+                <a href="book-bracket.html" class="nav-link">Book Bracket</a>
             </div>
             <div class="theme-selector">
                 <button class="theme-btn" id="theme-btn" title="Change theme">🎨</button>
@@ -67,10 +69,17 @@
 
         <!-- Stats Section -->
         <section id="stats-section" class="section">
-            <h2>Your Library Insights</h2>
+            <div class="section-header-with-actions">
+                <h2>Your Library Insights</h2>
+                <button id="download-stats-btn" class="btn btn-secondary download-btn">
+                    <span class="download-icon">📥</span> Download Stats
+                </button>
+            </div>
             
-            <!-- Overview Stats -->
-            <div class="stats-grid">
+            <!-- Stats Content (for download) -->
+            <div id="stats-content">
+                <!-- Overview Stats -->
+                <div class="stats-grid" id="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">📚</div>
                     <div class="stat-number" id="total-books">0</div>
@@ -91,6 +100,17 @@
                     <div class="stat-number" id="total-pages">0</div>
                     <div class="stat-label">Total Pages</div>
                 </div>
+                <!-- Rating stats (shown only if ratings exist) -->
+                <div class="stat-card" id="avg-rating-card" style="display: none;">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number" id="avg-rating">0</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-card" id="rated-books-card" style="display: none;">
+                    <div class="stat-icon">🌟</div>
+                    <div class="stat-number" id="rated-books">0</div>
+                    <div class="stat-label">Rated Books</div>
+                </div>
             </div>
 
             <!-- Filter Toggle -->
@@ -104,7 +124,7 @@
             </div>
 
             <!-- Top Lists -->
-            <div class="top-lists">
+            <div class="top-lists" id="top-lists">
                 <div class="top-list-card">
                     <h3>📚 Top Genres/Categories</h3>
                     <div id="top-genres" class="top-list"></div>
@@ -119,6 +139,13 @@
                     <h3>🏷️ Popular Tags</h3>
                     <div id="top-tags" class="top-list"></div>
                 </div>
+                
+                <!-- Top Rated Books (shown only if ratings exist) -->
+                <div class="top-list-card" id="top-rated-card" style="display: none;">
+                    <h3>⭐ Highest Rated Books</h3>
+                    <div id="top-rated" class="top-list"></div>
+                </div>
+            </div>
             </div>
 
             <button id="analyze-again-btn" class="btn btn-secondary">Analyze Another File</button>
@@ -137,7 +164,7 @@
     </div>
 
     <footer class="footer">
-        <p>Made with 💚 for book lovers everywhere</p>
+        <p>Made with <span id="footer-heart">💚</span> for book lovers everywhere</p>
     </footer>
 
     <script src="../assets/js/library-stats.js"></script>
